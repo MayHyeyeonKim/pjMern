@@ -20,8 +20,7 @@ function Test() {
         width: "100%",
       }}
     >
-      {ContentList.map((content, idx) => {
-        return;
+      {ContentList.map((content, idx) => (
         <div
           key={idx}
           style={{
@@ -29,10 +28,10 @@ function Test() {
             marginLeft: "1rem",
           }}
         >
-          {content}
+          내용: {content}
           <hr />
-        </div>;
-      })}
+        </div>
+      ))}
       <input
         type="text"
         value={Content}
