@@ -1,11 +1,14 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const port = 5001;
+
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-app.get("/express", (req, res) => {
-  res.send("Hello Express!");
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
