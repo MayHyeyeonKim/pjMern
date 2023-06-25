@@ -31,6 +31,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/test", (req, res) => {
-  const communitypost = new Post({ title: "fluffy" });
-  res.status(200).json({ success: true, text: "안냥" });
+  const communitypost = new Post({ title: "test", content: "테스트입니다" });
+  res.status(200).json({ success: true, text: "안dsad냥" });
 });
