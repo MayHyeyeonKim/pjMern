@@ -4,8 +4,9 @@ import { Routes, Route } from "react-router-dom";
 
 import Test from "./Test";
 import Heading from "./Component/Heading";
-import List from "./Component/List";
-import Upload from "./Component/Upload";
+import List from "./Component/Post/List";
+import Upload from "./Component/Post/Upload";
+import Nav from "react-bootstrap/Nav";
 
 function App() {
   const [ContentList, setContentList] = useState([]);
