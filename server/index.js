@@ -4,12 +4,15 @@ const path = require("path");
 const port = 8005;
 const mongoose = require("mongoose");
 const { connectionString } = require("./credentials");
+const cors = require("cors");
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const { Post } = require("./Model/Post.js");
+const { Counter } = require("./Model/Counter.js");
+
 app.listen(port, () => {
   mongoose
     .connect(connectionString, {
@@ -30,15 +33,22 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-//클라이언트단에서 /api/test로 post 요청이 온다면은
+//클라이언트단에서 "/api/post/***"로 post 요청이 온다면은
 app.post("/api/post/submit", (req, res) => {
   let temp = req.body;
-  // console.log(temp);
-  const communitypost = new Post(temp);
-  communitypost
-    .save()
-    .then(() => {
-      res.status(200).json({ success: true });
+  Counter.findOne({ name: "counter" })
+    .exec()
+    .then((counter) => {
+      temp.postNum = counter.postNum;
+      console.log(temp);
+      const communityPost = new Post(temp);
+      communityPost.save().then(() => {
+        Counter.updateOne({ name: "counter" }, { $inc: { postNum: 1 } }).then(
+          () => {
+            res.status(200).json({ success: true });
+          }
+        );
+      });
     })
     .catch((err) => {
       res.status(400).json({ success: false });
